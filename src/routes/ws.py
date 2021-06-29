@@ -19,4 +19,4 @@ async def websocket_route(
         while True:
             await websocket.receive_text()
     except WebSocketDisconnect:
-        manager.disconnect(connection_id)
+        manager.disconnect(connection_id, websocket)

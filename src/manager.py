@@ -12,27 +12,27 @@ class ConnectionManager:
     """WebSocket manager."""
 
     def __init__(self):
-        self.connections: t.Dict[uuid.UUID, WebSocket] = {}
-        self.queue = Queue()
+        self.connections: t.List[t.Dict[str, t.Any]] = []
 
     async def new_private_event(self, to: uuid.UUID, event: EventSchema):
         """New event for specific connection."""
-        websocket = self.connections.get(to)
-        if websocket:
-            await websocket.send_json(event.json())
-
-    # async def new_public_event(self, event: EventSchema):
-    #     """New event for all connections."""
-    #     for _, websocket in self.connections.items():
-    #         websocket.send_json(event)
+        for connection in self.connections:
+            if connection['id'] == to:
+                await connection['websocket'].send_json(event.json())
 
     async def register(self, connection_id: uuid.UUID, connection: WebSocket):
         """Accept and register new WebSocket connection."""
         await connection.accept()
-        self.connections[connection_id] = connection
+        self.connections.append({
+            'id': connection_id,
+            'websocket': connection
+        })
 
-    def disconnect(self, connection_id: uuid.UUID):
+    def disconnect(self, connection_id: uuid.UUID, connection: WebSocket):
         """Remove connection."""
-        del self.connections[connection_id]
+        self.connections.remove({
+            'id': connection_id,
+            'websocket': connection,
+        })
 
 manager = ConnectionManager()
