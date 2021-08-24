@@ -18,7 +18,7 @@ class ConnectionManager:
         """New event for specific connection."""
         for connection in self.connections:
             if connection['id'] == to:
-                await connection['websocket'].send_json(event.json())
+                await connection['websocket'].send_text(event.json())
 
     async def register(self, connection_id: uuid.UUID, connection: WebSocket):
         """Accept and register new WebSocket connection."""
