@@ -1,6 +1,6 @@
 """Application schemas module."""
-import uuid
 import typing as t
+import uuid
 from enum import Enum
 
 import pydantic

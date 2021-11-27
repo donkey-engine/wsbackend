@@ -15,6 +15,7 @@ async def new_event(
     await manager.new_private_event(item.to, item.event)
     return {'status': 'ok'}
 
+
 @router.get('/health')
 async def healthcheck():
     return {'status': 'ok'}
