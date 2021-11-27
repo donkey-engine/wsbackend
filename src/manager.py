@@ -1,7 +1,6 @@
 """WebSocket connection manager module."""
 import typing as t
 import uuid
-from queue import Queue
 
 from fastapi import WebSocket
 
@@ -34,5 +33,6 @@ class ConnectionManager:
             'id': connection_id,
             'websocket': connection,
         })
+
 
 manager = ConnectionManager()
